@@ -1,0 +1,146 @@
+GET http://localhost:3000/buyer-api/buyers
+
+
+###
+
+POST http://localhost:3000/vendor-api/vendor
+Content-Type: application/json
+
+{
+  "role": "vendor",
+  "firstName": "vendor1",
+  "lastName": "lastname1",
+  "email": "vendor1@mail.com",
+  "profileImageUrl": "vendor image",
+  "isActive": true,
+  "phno": "1234567890"
+}
+
+###
+POST http://localhost:3000/buyer-api/buyer
+Content-Type: application/json
+
+{
+  "role": "buyer",
+  "firstName": "buyer1",
+  "lastName": "lastname1",
+  "email": "buyer1@mail.com",
+  "profileImageUrl": "buyer image",
+  "isActive": true,
+  "phno": "1234567891"
+}
+
+
+###
+
+POST http://localhost:3000/vendor-api/product
+Content-Type: application/json
+
+{
+  "vendorData": {
+    "nameOfVendor": "vendor",
+    "email": "vendor1@mail.com",
+    "profileImageUrl": "https://example.com/vendor1.jpg"
+  },
+  "productId": "{{$timestamp}}",
+  "productName": "Organic Apples",
+  "category": "Fruits",
+  "price": 3.99,
+  "description": "Fresh organic apples sold per kg. Crisp texture and sweet flavor.",
+  "productImageUrl": "https://example.com/images/organic-apples.jpg",
+  "reviews": [],
+  "isProductActive": true
+}
+
+###
+GET http://localhost:3000/buyer-api/products
+
+
+
+###
+
+GET http://localhost:3000/vendor-api/products
+
+###
+
+PUT http://localhost:3000/vendor-api/product/1767630385
+Content-Type: application/json
+
+{
+   "_id": "695be631d3c98e8e0def64ad",
+  "vendorData": {
+    "nameOfVendor": "vendor",
+    "email": "vendor1@mail.com",
+    "profileImageUrl": "https://example.com/vendor1.jpg"
+  },
+  "productId": "{{$timestamp}}",
+  "productName": "Organic Apples",
+  "category": "Fruits",
+  "price": 10.99,
+  "description": "Fresh organic apples sold per kg. Crisp texture and sweet flavor.",
+  "productImageUrl": "https://example.com/images/organic-apples.jpg",
+  "reviews": [],
+  "isProductActive": true
+}
+
+###
+PUT http://localhost:3000/vendor-api/products/1767630385
+Content-Type: application/json
+
+{
+   "_id": "695be631d3c98e8e0def64ad",
+  "vendorData": {
+    "nameOfVendor": "vendor",
+    "email": "vendor1@mail.com",
+    "profileImageUrl": "https://example.com/vendor1.jpg"
+  },
+  "productId": "{{$timestamp}}",
+  "productName": "Organic Apples",
+  "category": "Fruits",
+  "price": 10.99,
+  "description": "Fresh organic apples sold per kg. Crisp texture and sweet flavor.",
+  "productImageUrl": "https://example.com/images/organic-apples.jpg",
+  "reviews": [],
+  "isProductActive": false
+}
+
+
+###
+
+PUT http://localhost:3000/buyer-api/review/1767890229
+Content-Type: application/json
+
+{
+  "nameOfBuyer": "buyer1",
+  "review": "Great quality apples! Very fresh and tasty."
+}
+
+
+
+###
+POST http://localhost:3000/buyer-api/cart/695bdfa775b7c9c2301d70ca/add
+Content-Type: application/json
+
+{
+  "productId": "1767890229",
+  "qty": 2
+}
+
+
+###
+GET http://localhost:3000/buyer-api/cart/695bdfa775b7c9c2301d70ca
+
+###
+PUT http://localhost:3000/buyer-api/cart/695bdfa775b7c9c2301d70ca/item/1767890229
+Content-Type: application/json
+
+{
+  "qty": 3
+}
+
+###
+DELETE http://localhost:3000/buyer-api/cart/695bdfa775b7c9c2301d70ca/item/1767890229
+
+
+###
+POST http://localhost:3000/buyer-api/cart/695bdfa775b7c9c2301d70ca/clear
