@@ -7,7 +7,25 @@ const vendorApp = require("./APIs/vendorApi");
 const adminApp = require("./APIs/adminApi");
 const buyerApp = require("./APIs/buyerApi");
 const cors = require("cors");
-app.use(cors());
+
+const allowedOrigins = (process.env.CLIENT_ORIGIN || "")
+    .split(",")
+    .map((origin) => origin.trim())
+    .filter(Boolean);
+
+app.use(
+    cors({
+        origin: (origin, callback) => {
+            // Allow server-to-server and local non-browser requests.
+            if (!origin) return callback(null, true);
+            if (allowedOrigins.length === 0 || allowedOrigins.includes(origin)) {
+                return callback(null, true);
+            }
+            return callback(new Error("Origin not allowed by CORS"));
+        },
+        credentials: true,
+    })
+);
 
 mongoose.connect(process.env.DBURL)
 .then(()=>{app.listen(port,()=>console.log(`server listening on port ${port}`)) 

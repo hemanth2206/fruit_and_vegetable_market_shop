@@ -1,6 +1,7 @@
 import { useState, useEffect, useContext } from 'react'
 import axios from 'axios'
 import { buyerVendorContextObj } from '../../context/BuyerVendorContext'
+import { buildApiUrl } from '../../config/api'
 
 function Orders() {
   const [orders, setOrders] = useState([])
@@ -19,7 +20,7 @@ function Orders() {
     try {
       setLoading(true)
       const res = await axios.get(
-        `http://localhost:3000/vendor-api/orders/${currentUser._id}`
+        buildApiUrl(`/vendor-api/orders/${currentUser._id}`)
       )
 
       if (res.status === 200) {
@@ -37,7 +38,7 @@ function Orders() {
   async function updateOrderStatus(orderId, newStatus) {
     try {
       const res = await axios.put(
-        `http://localhost:3000/vendor-api/orders/${orderId}`,
+        buildApiUrl(`/vendor-api/orders/${orderId}`),
         { orderStatus: newStatus }
       )
 

@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form'
 import axios from 'axios'
 import { buyerVendorContextObj } from '../../context/BuyerVendorContext'
 import { useNavigate } from 'react-router-dom'
+import { buildApiUrl } from '../../config/api'
 import './AddProduct.css'
 
 function AddProduct() {
@@ -27,7 +28,7 @@ function AddProduct() {
 
     try {
       const res = await axios.post(
-        'http://localhost:3000/vendor-api/product',
+        buildApiUrl('/vendor-api/product'),
         productObj
       )
 

@@ -2,6 +2,7 @@ import { useState, useEffect, useContext } from 'react'
 import axios from 'axios'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { buyerVendorContextObj } from '../../context/BuyerVendorContext'
+import { buildApiUrl } from '../../config/api'
 import './Products.css'
 
 
@@ -18,14 +19,14 @@ function Products() {
   async function getProducts() {
     const token = localStorage.getItem("token");
     try {
-      let url = 'http://localhost:3000/vendor-api/products';
+      let url = buildApiUrl('/vendor-api/products');
       
       // Check if viewing "my-products" route
       const isMyProductsRoute = location.pathname.includes('my-products');
       
       // If viewing my-products and user is vendor, fetch their own products (including deleted ones)
       if (isMyProductsRoute && currentUser?.role === 'vendor' && currentUser?._id) {
-        url = `http://localhost:3000/vendor-api/vendor-products/${currentUser._id}`;
+        url = buildApiUrl(`/vendor-api/vendor-products/${currentUser._id}`);
       }
       
       const res = await axios.get(url)
@@ -54,7 +55,7 @@ function Products() {
 
     try {
       const res = await axios.post(
-        `http://localhost:3000/buyer-api/cart/${currentUser._id}/add`,
+        buildApiUrl(`/buyer-api/cart/${currentUser._id}/add`),
         { productId: productObj.productId, qty: 1 }
       );
 

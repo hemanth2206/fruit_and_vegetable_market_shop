@@ -33,14 +33,26 @@ npm install
 
 ### 2) Configure Environment
 
-Create a `.env` file in `server/` and add your values:
+Create the following files from the examples:
+
+- `server/.env` from `server/.env.example`
+- `client/.env` from `client/.env.example`
+
+`server/.env`
 
 ```ini
-MONGODB_URI=your_mongodb_connection_string
+DBURL=your_mongodb_connection_string
 PORT=4000
+CLIENT_ORIGIN=http://localhost:5173
+CLERK_SECRET_KEY=your_clerk_secret_key
 ```
 
-If you use any auth or third-party services, add those keys here too.
+`client/.env`
+
+```ini
+VITE_API_BASE_URL=http://localhost:3000
+VITE_CLERK_PUBLISHABLE_KEY=your_clerk_publishable_key
+```
 
 ### 3) Run the App
 
@@ -54,8 +66,48 @@ npm run dev
 
 Frontend runs on the Vite dev server, backend runs on the configured `PORT`.
 
+## Deployment Guide
+
+### Backend (Render)
+
+1. Push this repository to GitHub.
+2. Create a new Web Service in Render.
+3. Set Root Directory to `server`.
+4. Use Build Command: `npm install`
+5. Use Start Command: `npm start`
+6. Add environment variables:
+
+```ini
+DBURL=your_mongodb_atlas_connection_string
+PORT=10000
+CLIENT_ORIGIN=https://your-frontend-domain
+CLERK_SECRET_KEY=your_clerk_secret_key
+```
+
+7. Deploy and copy the backend URL.
+
+### Frontend (Vercel)
+
+1. Create a new Vercel project from the same repository.
+2. Set Root Directory to `client`.
+3. Framework preset: Vite.
+4. Add environment variables:
+
+```ini
+VITE_API_BASE_URL=https://your-backend-domain
+VITE_CLERK_PUBLISHABLE_KEY=your_clerk_publishable_key
+```
+
+5. Deploy.
+
+### Post-deployment Checks
+
+1. Open frontend and verify products load.
+2. Sign in with Clerk and verify buyer/vendor role selection works.
+3. Add product, add to cart, place order.
+4. Confirm API requests go to deployed backend (not localhost).
+
 ## Notes
 
-- Update API base URLs in the client if your backend port changes.
 - Ensure MongoDB is reachable from your server environment.
-- Buyer email is validated through Clerk authentication
+- Buyer email is validated through Clerk authentication.

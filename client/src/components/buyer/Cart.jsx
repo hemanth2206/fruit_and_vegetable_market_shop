@@ -1,6 +1,7 @@
 import { useState, useEffect, useContext } from 'react'
 import axios from 'axios'
 import { buyerVendorContextObj } from '../../context/BuyerVendorContext'
+import { buildApiUrl } from '../../config/api'
 
 function Cart() {
   const [cart, setCart] = useState(null)
@@ -19,7 +20,7 @@ function Cart() {
     try {
       setLoading(true)
       const res = await axios.get(
-        `http://localhost:3000/buyer-api/cart/${currentUser._id}`
+        buildApiUrl(`/buyer-api/cart/${currentUser._id}`)
       )
       
       if (res.status === 200) {
@@ -37,7 +38,7 @@ function Cart() {
   async function updateQuantity(productId, newQty) {
     try {
       const res = await axios.put(
-        `http://localhost:3000/buyer-api/cart/${currentUser._id}/item/${productId}`,
+        buildApiUrl(`/buyer-api/cart/${currentUser._id}/item/${productId}`),
         { qty: newQty }
       )
       
@@ -64,7 +65,7 @@ function Cart() {
     try {
       setLoading(true)
       const res = await axios.post(
-        `http://localhost:3000/buyer-api/place-order/${currentUser._id}`,
+        buildApiUrl(`/buyer-api/place-order/${currentUser._id}`),
         { cartItems: cart.items }
       )
 

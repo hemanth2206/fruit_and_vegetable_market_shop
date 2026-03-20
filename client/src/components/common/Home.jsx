@@ -3,6 +3,7 @@ import { buyerVendorContextObj } from '../../context/BuyerVendorContext'
 import { useUser, useSignIn } from '@clerk/clerk-react'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
+import { buildApiUrl } from '../../config/api'
 import './Home.css'
 
 
@@ -50,7 +51,7 @@ function Home() {
 
     try {
       if (selectedRole === 'vendor') {
-        const res = await axios.post('http://localhost:3000/vendor-api/vendor', userToSend)
+        const res = await axios.post(buildApiUrl('/vendor-api/vendor'), userToSend)
         let { message, payload } = res.data;
         if (message === 'vendor') {
           const updatedUser = { ...payload, role: 'vendor' };
@@ -61,7 +62,7 @@ function Home() {
           setError(message);
         }
       } else if (selectedRole === 'buyer') {
-        const res = await axios.post('http://localhost:3000/buyer-api/buyer', userToSend)
+        const res = await axios.post(buildApiUrl('/buyer-api/buyer'), userToSend)
         let { message, payload } = res.data;
         if (message === 'buyer') {
           const updatedUser = { ...payload, role: 'buyer' };

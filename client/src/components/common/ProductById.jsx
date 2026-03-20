@@ -6,6 +6,7 @@ import { MdDelete, MdRestore } from 'react-icons/md'
 import { useForm } from 'react-hook-form'
 import axios from 'axios'
 import { useAuth } from '@clerk/clerk-react'
+import { buildApiUrl } from '../../config/api'
 import './ProductById.css'
 
 function ProductById() {
@@ -30,7 +31,7 @@ function ProductById() {
     const token = await getToken()
 
     let res = await axios.put(
-      `http://localhost:3000/vendor-api/product/${productAfterChanges.productId}`,
+      buildApiUrl(`/vendor-api/product/${productAfterChanges.productId}`),
       productAfterChanges,
       {
         headers: {
@@ -54,7 +55,7 @@ function ProductById() {
     console.log("reviewObj :", reviewObj)
 
     let res = await axios.put(
-      `http://localhost:3000/buyer-api/review/${currentProduct.productId}`,
+      buildApiUrl(`/buyer-api/review/${currentProduct.productId}`),
       reviewObj
     )
 
@@ -69,7 +70,7 @@ function ProductById() {
     try {
       const productToDelete = { ...currentProduct, isProductActive: false, vendorId: currentProduct.vendorId }
       let res = await axios.put(
-        `http://localhost:3000/vendor-api/products/${currentProduct.productId}`,
+        buildApiUrl(`/vendor-api/products/${currentProduct.productId}`),
         productToDelete
       )
       if (res.data.message === 'product deleted or restored') {
@@ -86,7 +87,7 @@ function ProductById() {
     try {
       const productToRestore = { ...currentProduct, isProductActive: true, vendorId: currentProduct.vendorId }
       let res = await axios.put(
-        `http://localhost:3000/vendor-api/products/${currentProduct.productId}`,
+        buildApiUrl(`/vendor-api/products/${currentProduct.productId}`),
         productToRestore
       )
       if (res.data.message === 'product deleted or restored') {
